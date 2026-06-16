@@ -130,40 +130,56 @@ memo_app_fixed/
 
 ## 주요 화면
 
-> 스크린샷은 GitHub README 편집 화면에서 이미지를 드래그하면 생성되는 `user-attachments` URL로 추가할 수 있습니다.
-
-### 기록 조각
-
-빠른 기록 작성, 결 선택, 사진/파일 첨부를 담당하는 메인 화면입니다.
-
-```md
-<!-- 이미지 업로드 후 아래 형식으로 추가 -->
-<img width="360" alt="기록 조각" src="이미지_URL" />
-```
-
-### 생각 다이어리
-
-날짜별 기록 여부를 확인하고 특정 날짜의 기록을 다시 볼 수 있는 화면입니다.
-
-```md
-<img width="360" alt="생각 다이어리" src="이미지_URL" />
-```
-
-### 마음 서랍
-
-7개 결별로 기록을 모아보고, 각 결에 몇 개의 기록이 쌓였는지 확인하는 화면입니다.
-
-```md
-<img width="360" alt="마음 서랍" src="이미지_URL" />
-```
-
-### 기록 상세
-
-내용 수정, 결 변경, 사진 및 파일 첨부를 관리하는 상세 화면입니다.
-
-```md
-<img width="360" alt="기록 상세" src="이미지_URL" />
-```
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src="./images/screen-home-write.png" alt="기록 조각 입력 화면" width="320" />
+      <br />
+      <strong>기록 조각</strong>
+      <br />
+      <sub>결 선택, 빠른 입력, 사진/파일 첨부를 한 화면에서 처리합니다.</sub>
+    </td>
+    <td width="50%" align="center">
+      <img src="./images/screen-calendar.png" alt="생각 다이어리 달력 화면" width="320" />
+      <br />
+      <strong>생각 다이어리</strong>
+      <br />
+      <sub>날짜별 기록 여부와 선택 날짜의 기록을 확인합니다.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <img src="./images/screen-heart-drawer.png" alt="마음 서랍 화면" width="320" />
+      <br />
+      <strong>마음 서랍</strong>
+      <br />
+      <sub>7가지 결로 기록을 모아보고 기록 개수를 확인합니다.</sub>
+    </td>
+    <td width="50%" align="center">
+      <img src="./images/screen-category-detail.png" alt="반짝 아이디어 모음 화면" width="320" />
+      <br />
+      <strong>결별 기록 모음</strong>
+      <br />
+      <sub>선택한 결의 기록만 모아 상세하게 탐색합니다.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <img src="./images/screen-note-detail.png" alt="기록 상세 화면" width="320" />
+      <br />
+      <strong>기록 상세</strong>
+      <br />
+      <sub>내용 수정, 결 변경, 첨부 관리를 한 곳에서 수행합니다.</sub>
+    </td>
+    <td width="50%" align="center">
+      <img src="./images/screen-todo-done.png" alt="할일 완료 화면" width="320" />
+      <br />
+      <strong>할일 상태 관리</strong>
+      <br />
+      <sub>할일 결에서만 준비중, 진행중, 완료 상태를 노출합니다.</sub>
+    </td>
+  </tr>
+</table>
 
 ---
 
