@@ -105,7 +105,7 @@ export default function CategoriesScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>생각 주머니</Text>
+        <Text style={styles.headerTitle}>마음 서랍</Text>
         <Text style={styles.headerSub}>성격별로 모인 기록을 확인해 보세요</Text>
       </View>
 

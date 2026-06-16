@@ -180,7 +180,7 @@ export default function CategoryDetailScreen() {
             />
             <Text style={styles.emptyTitle}>아직 모인 기록이 없어요</Text>
             <Text style={styles.emptyText}>
-              기록 조각에서 이 주머니에 어울리는 생각을 남겨보세요
+              기록 조각에서 이 서랍에 어울리는 생각을 남겨보세요
             </Text>
           </View>
         ) : (

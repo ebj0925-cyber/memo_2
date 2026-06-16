@@ -42,7 +42,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="categories"
         options={{
-          title: '생각 주머니',
+          title: '마음 서랍',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="dots-grid" size={24} color={color} />
           ),
