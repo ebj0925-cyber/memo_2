@@ -1,6 +1,7 @@
 import EditModal from '@/components/EditModal';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as DocumentPicker from 'expo-document-picker';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
 import {
@@ -38,6 +39,7 @@ export default function HomeScreen() {
   const [text, setText] = useState('');
   const [currentCategory, setCurrentCategory] = useState('아이디어');
   const [tempImages, setTempImages] = useState<string[]>([]);
+  const [tempFiles, setTempFiles] = useState<any[]>([]);
   const [isAttachOpen, setIsAttachOpen] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedNote, setSelectedNote] = useState<any>(null);
@@ -89,8 +91,26 @@ export default function HomeScreen() {
     }
   };
 
+  const pickFile = async () => {
+    const result = await DocumentPicker.getDocumentAsync({
+      copyToCacheDirectory: true,
+      multiple: true,
+    });
+
+    if (!result.canceled) {
+      setTempFiles([...tempFiles, ...result.assets]);
+      setIsAttachOpen(false);
+    }
+  };
+
   const addNote = () => {
-    if (text.trim().length === 0 && tempImages.length === 0) return;
+    if (
+      text.trim().length === 0 &&
+      tempImages.length === 0 &&
+      tempFiles.length === 0
+    ) {
+      return;
+    }
 
     const now = new Date();
     const newNote = {
@@ -104,6 +124,7 @@ export default function HomeScreen() {
         hour12: true,
       }),
       imgs: tempImages,
+      files: tempFiles,
       status: '준비중',
       completedDate: null,
       lastEdited: null,
@@ -112,6 +133,7 @@ export default function HomeScreen() {
     setNotes([newNote, ...notes]);
     setText('');
     setTempImages([]);
+    setTempFiles([]);
     setIsAttachOpen(false);
     Keyboard.dismiss();
   };
@@ -172,6 +194,18 @@ export default function HomeScreen() {
                   >
                     {note.content || '(미디어 기록)'}
                   </Text>
+                  {note.files?.length > 0 && (
+                    <View style={styles.attachmentSummary}>
+                      <MaterialCommunityIcons
+                        name="paperclip"
+                        size={14}
+                        color="#8E8E93"
+                      />
+                      <Text style={styles.attachmentSummaryText}>
+                        파일 {note.files.length}개
+                      </Text>
+                    </View>
+                  )}
                 </View>
               </TouchableOpacity>
             );
@@ -202,7 +236,7 @@ export default function HomeScreen() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.attachItem}
-                onPress={() => Alert.alert('준비중')}
+                onPress={pickFile}
               >
                 <MaterialCommunityIcons
                   name="paperclip"
@@ -212,6 +246,40 @@ export default function HomeScreen() {
                 <Text style={styles.attachLabel}>파일</Text>
               </TouchableOpacity>
             </View>
+          )}
+
+          {tempFiles.length > 0 && (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.filePreviewList}
+            >
+              {tempFiles.map((file, index) => (
+                <TouchableOpacity
+                  key={`${file.uri}-${index}`}
+                  style={styles.filePreviewChip}
+                  onPress={() =>
+                    setTempFiles(
+                      tempFiles.filter((_, itemIndex) => itemIndex !== index),
+                    )
+                  }
+                >
+                  <MaterialCommunityIcons
+                    name="file-document-outline"
+                    size={16}
+                    color="#007AFF"
+                  />
+                  <Text style={styles.filePreviewText} numberOfLines={1}>
+                    {file.name || '첨부 파일'}
+                  </Text>
+                  <MaterialCommunityIcons
+                    name="close"
+                    size={14}
+                    color="#8E8E93"
+                  />
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
           )}
 
           <ScrollView
@@ -315,6 +383,17 @@ const styles = StyleSheet.create({
   badgeText: { fontSize: 12, fontWeight: 'bold' },
   timeText: { fontSize: 11, color: '#AEAEB2' },
   contentText: { fontSize: 16, color: '#2C2C2E', lineHeight: 22 },
+  attachmentSummary: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    marginTop: 10,
+  },
+  attachmentSummaryText: {
+    fontSize: 12,
+    color: '#8E8E93',
+    fontWeight: '600',
+  },
   inputWrapper: {
     backgroundColor: '#fff',
     borderTopWidth: 1,
@@ -329,6 +408,22 @@ const styles = StyleSheet.create({
   },
   attachItem: { alignItems: 'center' },
   attachLabel: { fontSize: 11, color: '#8E8E93', marginTop: 4 },
+  filePreviewList: {
+    paddingHorizontal: 12,
+    paddingTop: 10,
+  },
+  filePreviewChip: {
+    maxWidth: 180,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+    borderRadius: 14,
+    backgroundColor: '#F2F8FF',
+    marginRight: 8,
+  },
+  filePreviewText: { flexShrink: 1, fontSize: 12, color: '#48484A' },
   catScroll: { paddingVertical: 12 },
   catChip: {
     paddingHorizontal: 14,

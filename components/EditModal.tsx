@@ -1,4 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as DocumentPicker from 'expo-document-picker';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
 import {
@@ -16,6 +17,16 @@ import {
 
 const { width } = Dimensions.get('window');
 
+const categoryOptions = [
+  { label: '반짝 아이디어', value: '아이디어', color: '#FF9500', bg: '#FFF9F0' },
+  { label: '메모', value: '메모', color: '#8E8E93', bg: '#F2F2F7' },
+  { label: '영감', value: '영감', color: '#5856D6', bg: '#F5F0FF' },
+  { label: '할일', value: '할일', color: '#34C759', bg: '#F2FFF5' },
+  { label: '나에게 한마디', value: '칭찬하기', color: '#FFB7B2', bg: '#FFF0F0' },
+  { label: '오늘 기분', value: '오늘 기분', color: '#B2CEFE', bg: '#F0F5FF' },
+  { label: '중요', value: '중요', color: '#FF3B30', bg: '#FFF2F2' },
+];
+
 type EditModalProps = {
   visible: boolean;
   note: any;
@@ -32,15 +43,18 @@ export default function EditModal({
   const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
   const [images, setImages] = useState<string[]>([]);
+  const [files, setFiles] = useState<any[]>([]);
   const [status, setStatus] = useState('준비중');
   const [completedDate, setCompletedDate] = useState<string | null>(null);
   const [lastEdited, setLastEdited] = useState<string>('');
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
   useEffect(() => {
     if (note && visible) {
       setContent(note.content || '');
       setCategory(note.category || '아이디어');
       setImages(note.imgs || []);
+      setFiles(note.files || []);
       setStatus(note.status || '준비중');
       setCompletedDate(note.completedDate || null);
       setLastEdited(note.lastEdited || note.time);
@@ -59,6 +73,17 @@ export default function EditModal({
     }
   };
 
+  const pickFile = async () => {
+    const result = await DocumentPicker.getDocumentAsync({
+      copyToCacheDirectory: true,
+      multiple: true,
+    });
+
+    if (!result.canceled) {
+      setFiles([...files, ...result.assets]);
+    }
+  };
+
   const handleSave = () => {
     const now = new Date();
     const editTime = now.toLocaleTimeString('ko-KR', {
@@ -72,6 +97,7 @@ export default function EditModal({
       content,
       category,
       imgs: images,
+      files,
       status,
       completedDate,
       lastEdited: editTime,
@@ -87,6 +113,15 @@ export default function EditModal({
         `${now.getFullYear()}.${now.getMonth() + 1}.${now.getDate()}`,
       );
     } else {
+      setCompletedDate(null);
+    }
+  };
+
+  const handleCategoryChange = (newCategory: string) => {
+    setCategory(newCategory);
+
+    if (newCategory !== '할일') {
+      setStatus('준비중');
       setCompletedDate(null);
     }
   };
@@ -138,6 +173,41 @@ export default function EditModal({
                 </Text>
               </View>
             )}
+          </View>
+
+          <View style={styles.section}>
+            <Text style={styles.sectionLabel}>결</Text>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.categoryGroup}
+            >
+              {categoryOptions.map((item) => {
+                const isActive = category === item.value;
+
+                return (
+                  <TouchableOpacity
+                    key={item.value}
+                    onPress={() => handleCategoryChange(item.value)}
+                    style={[
+                      styles.categoryChip,
+                      { backgroundColor: item.bg, borderColor: item.color },
+                      isActive && { backgroundColor: item.color },
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.categoryChipText,
+                        { color: item.color },
+                        isActive && { color: '#fff' },
+                      ]}
+                    >
+                      {item.label}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
           </View>
 
           {category === '할일' && (
@@ -192,7 +262,7 @@ export default function EditModal({
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.toolItem}
-              onPress={() => Alert.alert('준비중')}
+              onPress={pickFile}
             >
               <MaterialCommunityIcons
                 name="paperclip"
@@ -229,20 +299,60 @@ export default function EditModal({
             </ScrollView>
           )}
 
-          <TextInput
-            style={[
-              styles.input,
-              isCompleted && {
-                color: '#AEAEB2',
-                textDecorationLine: 'line-through',
-              },
-            ]}
-            multiline
-            value={content}
-            onChangeText={setContent}
-            placeholder="내용을 채워주세요..."
-            placeholderTextColor="#C7C7CC"
-          />
+          {files.length > 0 && (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.fileList}
+            >
+              {files.map((file, index) => (
+                <TouchableOpacity
+                  key={`${file.uri || file.name}-${index}`}
+                  style={styles.fileChip}
+                  onPress={() =>
+                    setFiles(files.filter((_, itemIndex) => itemIndex !== index))
+                  }
+                >
+                  <MaterialCommunityIcons
+                    name="file-document-outline"
+                    size={16}
+                    color="#007AFF"
+                  />
+                  <Text style={styles.fileText} numberOfLines={1}>
+                    {file.name || '첨부 파일'}
+                  </Text>
+                  <MaterialCommunityIcons
+                    name="close"
+                    size={14}
+                    color="#8E8E93"
+                  />
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          )}
+
+          <View style={styles.editorSection}>
+            <Text style={styles.editorLabel}>내용</Text>
+            <TextInput
+              style={[
+                styles.input,
+                isInputFocused && styles.inputFocused,
+                isCompleted && {
+                  color: '#AEAEB2',
+                  textDecorationLine: 'line-through',
+                },
+              ]}
+              multiline
+              value={content}
+              onChangeText={setContent}
+              onFocus={() => setIsInputFocused(true)}
+              onBlur={() => setIsInputFocused(false)}
+              placeholder="내용을 채워주세요..."
+              placeholderTextColor="#C7C7CC"
+              cursorColor="#FF9500"
+              selectionColor="#FF9500"
+            />
+          </View>
         </ScrollView>
       </View>
     </Modal>
@@ -292,6 +402,14 @@ const styles = StyleSheet.create({
     color: '#AEAEB2',
     marginBottom: 12,
   },
+  categoryGroup: { gap: 8, paddingRight: 25 },
+  categoryChip: {
+    paddingHorizontal: 14,
+    paddingVertical: 9,
+    borderRadius: 18,
+    borderWidth: 1,
+  },
+  categoryChipText: { fontSize: 13, fontWeight: '700' },
   statusGroup: { flexDirection: 'row', gap: 10 },
   statusTab: {
     flex: 1,
@@ -328,11 +446,46 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEE',
   },
   imageDelete: { position: 'absolute', top: 10, right: 10 },
+  fileList: { marginBottom: 25 },
+  fileChip: {
+    maxWidth: 220,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 9,
+    borderRadius: 16,
+    backgroundColor: '#F2F8FF',
+    marginRight: 10,
+  },
+  fileText: { flexShrink: 1, fontSize: 13, color: '#48484A' },
+  editorSection: { marginBottom: 45 },
+  editorLabel: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#8E8E93',
+    marginBottom: 10,
+  },
   input: {
+    backgroundColor: '#fff',
+    borderWidth: 1.5,
+    borderColor: '#E5E5EA',
+    borderRadius: 18,
     fontSize: 18,
     lineHeight: 28,
     color: '#2C2C2E',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
     textAlignVertical: 'top',
-    minHeight: 350,
+    minHeight: 320,
+    outlineStyle: 'none' as any,
+  },
+  inputFocused: {
+    borderColor: '#FF9500',
+    shadowColor: '#FF9500',
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 2,
   },
 });
