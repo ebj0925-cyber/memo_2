@@ -329,6 +329,47 @@ npm run web
 ```
 
 ---
+## Portfolio
+
+- [PPT 다운로드](./memo-portfolio/MyQuickNote_PM_Portfolio.pptx)
+- [PDF 보기](./memo-portfolio/MyQuickNote_PM_Portfolio.pdf)
+
+### Preview
+
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0001.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0002.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0003.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0004.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0005.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0006.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0007.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0008.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0009.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0010.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0011.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0012.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0013.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0014.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0015.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0016.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0017.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0018.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0019.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0020.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0021.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0022.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0023.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0024.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0025.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0026.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0027.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0028.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0029.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0030.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0031.png" width="800" />
+<img src="./memo-portfolio/images/MyQuickNote_PM_Portfolio_0032.png" width="800" />
+
+
 
 ## 링크
 
